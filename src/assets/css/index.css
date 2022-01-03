@@ -16,8 +16,8 @@ body {
       rgba(10, 119, 180, 0.8)
     ),
     url("../images/background.jpg");
-    background-position: top;
-    background-size: cover;
+  background-position: top;
+  background-size: cover;
 }
 
 code {
