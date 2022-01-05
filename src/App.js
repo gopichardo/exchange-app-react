@@ -1,12 +1,14 @@
 import "./assets/css/App.css";
 import Header from "./components/Header";
-import EchangeRate from "./components/ExchangeRate"
+import EchangeRate from "./components/ExchangeRate";
 
 function App() {
   return (
-    <div className="App">
-      <Header />
-      <EchangeRate />
+    <div className="columns">
+      <div className="column">
+        <Header />
+        <EchangeRate />
+      </div>
     </div>
   );
 }
