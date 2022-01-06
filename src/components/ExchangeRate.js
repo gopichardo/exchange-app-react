@@ -3,6 +3,7 @@ import Select from "react-select";
 import "../assets/css/ExchangeRate.css";
 import "../assets/css/c3.min.css";
 import c3 from "c3";
+import Currency from "../components/Currency";
 
 class EchangeRate extends Component {
   constructor(props) {
@@ -21,21 +22,34 @@ class EchangeRate extends Component {
           Summary of <b>Mexican Peso</b> exchange rates against other
           currencies.
         </h1>
-        <div className="has-text-centered pb-3">
-          <label htmlFor="sourceCurrency" className="is-size-5-mobile label-bold">
+        <div className="has-text-centered block">
+          <label
+            htmlFor="sourceCurrency"
+            className="is-size-5-mobile label-bold"
+          >
             Compare
           </label>
         </div>
-        <Select options={this.options} className="pb-3" />
-        <div className="has-text-centered pb-3">
-          <label htmlFor="destinationCurrency" className="is-size-5-mobile label-bold">
+        <Select options={this.options} className="block" />
+        <div className="has-text-centered block">
+          <label
+            htmlFor="destinationCurrency"
+            className="is-size-5-mobile label-bold"
+          >
             to
           </label>
         </div>
-        <Select options={this.options} className="pb-3" />
-        <div className="column big-card">
+        <Select options={this.options} className="block" />
+        <div className="column big-card block">
           <div id="mainChart"></div>
         </div>
+        <div className="has-text-centered block">
+          <label className="is-size-5-mobile label-bold">
+            Recent exchange rates
+          </label>
+        </div>
+        <Currency />
+        <Currency />
       </div>
     );
   }
@@ -51,7 +65,7 @@ class EchangeRate extends Component {
         },
       },
       point: {
-        r: 3
+        r: 3,
       },
     });
   }

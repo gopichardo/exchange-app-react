@@ -1,6 +1,7 @@
 import "./assets/css/App.css";
 import Header from "./components/Header";
 import EchangeRate from "./components/ExchangeRate";
+import Footer from "./components/Footer";
 
 function App() {
   return (
@@ -8,6 +9,7 @@ function App() {
       <div className="column">
         <Header />
         <EchangeRate />
+        <Footer />
       </div>
     </div>
   );
