@@ -42,10 +42,13 @@ class EchangeRate extends Component {
                 columns: [
                     ["data1", 20, 50, 80, 98]
                 ],
-                // type: "line",
-                axes: {
-                    data2: 'y2' // ADD
+                type: "area-spline",
+                colors: {
+                    data1: "#2B5876"
                 }
+            },
+            point: {
+                r: 3
             }
         });
     }
