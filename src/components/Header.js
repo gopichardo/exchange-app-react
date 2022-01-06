@@ -4,7 +4,7 @@ import "../assets/css/Header.css";
 class Header extends Component {
   render() {
     return (
-      <a className="brand" href="/">
+      <a className="brand column is-size-1-mobile" href="/">
         Exchange
       </a>
     );
