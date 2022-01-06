@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import Select from 'react-select';
 import "../assets/css/ExchangeRate.css";
+import c3 from "../assets/js/c3.min.js"
+import "../assets/css/c3.min.css"
 
 class EchangeRate extends Component {
 
@@ -28,9 +30,24 @@ class EchangeRate extends Component {
             </div>
             <Select options={this.options} className="pb-3" />
             <div className="column big-card">
-                X
+                <div id="mainChart"></div>
             </div>
         </div>;
+    }
+
+    componentDidMount() {
+        c3.generate({
+            bindto: "#mainChart",
+            data: {
+                columns: [
+                    ["data1", 20, 50, 80, 98]
+                ],
+                // type: "line",
+                axes: {
+                    data2: 'y2' // ADD
+                }
+            }
+        });
     }
 
 }
