@@ -17,3 +17,15 @@
 .block:not(:last-child) {
   margin-bottom: 1.5rem;
 }
+
+.mainChart .c3-line {
+  stroke-width: 0.2rem;
+  border-radius: 1rem;
+  stroke: #ffffff !important;
+}
+
+.mainChart .c3-circle {
+  stroke: #ffffff;
+  stroke-width: 0.2rem;
+  fill: white !important;
+}

@@ -212,15 +212,15 @@ class EchangeRate extends Component {
         </div>
         <Select options={this.options} className="block" />
         <div className="column big-card block">
-          <div id="mainChart"></div>
+          <div id="mainChart" className="mainChart"></div>
         </div>
         <div className="has-text-centered block">
           <label className="is-size-5-mobile label-bold">
             Recent exchange rates
           </label>
         </div>
-        <Currency symbol={"USD"} currency={"United States Dollar"} />
-        <Currency symbol={"MXN"} currency={"Mexican Peso"} />
+        <Currency id={"USD"} symbol={"USD"} currency={"United States Dollar"} />
+        <Currency id={"MXN"} symbol={"MXN"} currency={"Mexican Peso"} />
       </div>
     );
   }
@@ -236,7 +236,8 @@ class EchangeRate extends Component {
         },
       },
       point: {
-        r: 3,
+        // r: 4,
+        show: true,
       },
     });
   }
