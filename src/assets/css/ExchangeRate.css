@@ -33,3 +33,7 @@
 .select {
   color: black;
 }
+
+.c3-tooltip .value {
+  color: black;
+}
