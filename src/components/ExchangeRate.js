@@ -1,15 +1,24 @@
 import React, { Component } from "react";
 import Select from "react-select";
+import c3 from "c3";
+import axios from "axios";
+import Moment from "moment";
+import { extendMoment } from "moment-range";
 import "../assets/css/ExchangeRate.css";
 import "../assets/css/c3.min.css";
-import c3 from "c3";
 import Currency from "../components/Currency";
+
+const moment = extendMoment(Moment);
+const baseUrl = "http://data.fixer.io/api/";
+const fixerKey = "40b5de4e591999345ab08947cac7113f";
 
 class EchangeRate extends Component {
   state = {
     symbols: this.getSymbols(),
     defaultSymbol: { value: "MXN", label: "Mexican Peso" },
+    daysRange: this.getDaysRange()
   };
+
 
   constructor(props) {
     super(props);
@@ -68,6 +77,8 @@ class EchangeRate extends Component {
 
   componentDidMount() {
     this.generateChart();
+
+    this.getRateHistoryByDay();
   }
 
   generateChart() {
@@ -100,6 +111,7 @@ class EchangeRate extends Component {
       CAD: "Canadian Dollar",
       PLN: "Polish Zloty",
       MXN: "Mexican Peso",
+      EUR: "Euro"
     };
 
     var options = Object.entries(symbols).map(([key, value]) => {
@@ -108,6 +120,75 @@ class EchangeRate extends Component {
 
     return options;
   }
+
+  /**
+   * Get data from API
+   * @param {*} day 
+   * @returns 
+   */
+  getHistoricalrates(day) {
+    return axios.get(baseUrl + day, {
+      params: {
+        access_key: fixerKey,
+        symbols: "USD,AUD,CAD,PLN,MXN"
+      }
+    });
+  }
+
+  /**
+   * Get Days Range from last 6 days
+   * @returns 
+   */
+  getDaysRange() {
+    let days = [];
+    let range = moment.rangeFromInterval("day", -6);
+
+    for (let day of range.by("day")) {
+      days.push(day);
+    }
+
+    return days;
+  }
+
+  /**
+   * Get Rate History from the last 7 days
+   */
+  async getRateHistoryByDay() {
+    let days = this.state.daysRange;
+    let rateHistory = [];
+
+    if (this.getHistoryFromLocalStorage === null | undefined) {
+      await Promise.all(days.map(async (day) => {
+        await this.getHistoricalrates(moment(day).format("YYYY-MM-DD"))
+          .then((response) => {
+            if (response.data.success) {
+              rateHistory.push(response.data);
+            }
+          })
+          .catch(error => console.log(error));
+      }));
+
+      this.saveHistoryOnLocalStorage(JSON.stringify(rateHistory));
+    }
+  }
+
+  saveHistoryOnLocalStorage(history) {
+    localStorage.setItem("historyRate", history);
+  }
+
+  getHistoryFromLocalStorage() {
+    return JSON.parse(localStorage.getItem("historyRate"));
+  }
+
+  validateTodayInDaysRange() {
+
+  }
+
+  transformHistoryRate(historyRate)
+  {
+
+  }
+
 }
 
 export default EchangeRate;
