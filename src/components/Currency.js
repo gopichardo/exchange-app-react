@@ -3,10 +3,6 @@ import "../assets/css/Currency.css";
 import c3 from "c3";
 
 class Currency extends Component {
-  state = {
-    currency: "",
-  };
-
   render() {
     return (
       <div id={"currency_" + this.props.id} className="small-card column block">

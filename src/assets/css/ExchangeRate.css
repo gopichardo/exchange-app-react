@@ -29,3 +29,7 @@
   stroke-width: 0.2rem;
   fill: white !important;
 }
+
+.select {
+  color: black;
+}
