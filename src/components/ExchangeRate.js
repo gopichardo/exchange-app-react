@@ -180,7 +180,9 @@ class EchangeRate extends Component {
     return JSON.parse(localStorage.getItem("historyRate"));
   }
 
-  validateTodayInDaysRange() {
+  validateTodayInLocalStorageHistoryRate(today) {
+
+    return false;
 
   }
 

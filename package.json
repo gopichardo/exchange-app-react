@@ -23,7 +23,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "sass": "sass --no-source-map src/assets/sass/grid.sass src/assets/css/grid.css"
+    "sass": "sass --no-source-map src/assets/sass/grid.sass src/assets/css/grid.css",
+    "test:debug": "react-scripts --inspect-brk test --runInBand --no-cache"
   },
   "eslintConfig": {
     "extends": [
