@@ -207,9 +207,7 @@ class EchangeRate extends Component {
     return days;
   };
 
-  saveHistoryOnLocalStorage(history) {
-    localStorage.setItem("historyRate", history);
-  }
+ 
 
   validateTodayInLocalStorageHistoryRate(today) {
     return false;
