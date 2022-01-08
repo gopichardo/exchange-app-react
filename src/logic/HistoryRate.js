@@ -56,8 +56,11 @@ const HistoryRate = {
         })
       );
 
-      this.saveHistoryOnLocalStorage(JSON.stringify(rateHistory));
+      HistoryRate.saveHistoryOnLocalStorage(JSON.stringify(rateHistory));
     }
+  },
+  saveHistoryOnLocalStorage: (history) => {
+    localStorage.setItem("historyRate", history);
   },
 
   /**
