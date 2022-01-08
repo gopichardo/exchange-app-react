@@ -1,70 +1,69 @@
-# Getting Started with Create React App
+# Exchange Rate App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Esta aplicación permite realizar el calculo de las tazas de cambio del Peso Mexicano, respecto a otras monedas.
 
-## Available Scripts
+## Tecnologías
 
-In the project directory, you can run:
+La aplicación esta desarrollada con HTML, CSS, Javascript y la libreria React.
+La información de las tasas de cambio es consumida desde la api https://fixer.io/ con el plan gratuito.
+Para no sobrepasar el limite de uso de la API, la información se almacena y consulta desde el localstorage, y se actualiza caada dia para tener la ultimainformación de las tasas de cambio.
 
-### `npm start`
+### Librerias
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- **Bulma** - Framework de CSS Moderno
+- **C3js** - Librería para generar graficas
+- **Moment** - Libreria para manejar fechas
+- **Sass** - Preprocesador de CSS
+- **Axios** - CLiente para realizar peticiones HTTP
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Requisitos para ejecutar la aplicación
 
-### `npm test`
+Antes de comenzar con la descarga y ejecución de la aplicación, es necesario tener instalado en el equipo las siguientes aplicaciones:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- **git**
+- **Node.js**
 
-### `npm run build`
+Adicional a esto, se recomienda la instalación de **Visual Studio Code** para la edición de código fuente.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Descarga de repositorio
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+El código fuente de la API se encuentra versionado con git y está alojado en el repositorio GIT https://github.com/gopichardo/front-exchange.git
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+para descargar la solución del proyecto basta con clonar el repositorio con el siguiente comando:
 
-### `npm run eject`
+```sh
+git clone https://github.com/gopichardo/front-exchange.git
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## Instalar dependencias
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Antes de iniciar la aplicación es necesario instalar las dependencias de la aplicación
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+```
+npm install
+```
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## Iniciar Aplicación
 
-## Learn More
+Para iniciar la aplicación basta con situarse dentro del directorio raíz de la solución, y ejecutar el siguiente comando
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+```
+npm start
+```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+automáticamente se levantará un servidor web y la aplicación estará disponible en la url http://localhost:3000
 
-### Code Splitting
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+## Funcionamiento de la palicación
 
-### Analyzing the Bundle Size
+La aplicación es muy facil de usar, basta con elegir de los controles la moneda origen y destino y automaticamente se realizará la ocnversión, y se mostrará una grafica con el historial de la tasa de cambio de los ultimos 7 dias.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+la aplicación esta diseñada para adaptarse a dispositivos moviles y pantallas mas grandes de manera responsiva.
 
-### Making a Progressive Web App
+## Limitaciones
+Debido a que la aplicación utiliza  el plan gratuito de la API https://fixer.io/ solo se pueden realizar 100 peticiones al mes en el pan gratuito
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
 
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Desarrollado por **César González**  
+Correo: gopichardoces@gmail.com  
+LinkedIn: https://www.linkedin.com/in/gopichardoces/  
