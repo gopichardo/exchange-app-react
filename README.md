@@ -61,7 +61,7 @@ La aplicación es muy facil de usar, basta con elegir de los controles la moneda
 la aplicación esta diseñada para adaptarse a dispositivos moviles y pantallas mas grandes de manera responsiva.
 
 ## Limitaciones
-Debido a que la aplicación utiliza  el plan gratuito de la API https://fixer.io/ solo se pueden realizar 100 peticiones al mes en el pan gratuito
+Debido a que la aplicación utiliza  el plan gratuito de la API https://fixer.io/ solo se pueden realizar 100 peticiones al mes en el pan gratuito, por lo que puede no obtener la información de manera correcta hasta que se renueve el plan.
 
 
 Desarrollado por **César González**  
