@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Select from "react-select";
 import c3 from "c3";
-import axios from "axios";
+
 import Moment from "moment";
 import { extendMoment } from "moment-range";
 import "../assets/css/ExchangeRate.css";
@@ -10,17 +10,7 @@ import Currency from "../components/Currency";
 import HistoryRate from "../logic/HistoryRate";
 
 const moment = extendMoment(Moment);
-const baseUrl = "http://data.fixer.io/api/";
-const fixerKey = "40b5de4e591999345ab08947cac7113f";
-
 class EchangeRate extends Component {
-  state = {
-    symbols: this.getSymbols(),
-    sourceSymbol: { value: "MXN", label: "Mexican Peso" },
-    targetSymbol: { value: "USD", label: "United States Dollar" },
-    daysRange: this.getDaysRange(),
-  };
-
   constructor(props) {
     super(props);
     this.options = [
@@ -28,6 +18,15 @@ class EchangeRate extends Component {
       { value: "strawberry", label: "Strawberry" },
       { value: "vanilla", label: "Vanilla" },
     ];
+
+    this.state = {
+      dataReady: false,
+      symbolComparisson: "",
+      symbols: this.getSymbols(),
+      sourceSymbol: { value: "MXN", label: "Mexican Peso" },
+      targetSymbol: { value: "USD", label: "United States Dollar" },
+      daysRange: this.getDaysRange(),
+    };
   }
 
   render() {
@@ -64,10 +63,15 @@ class EchangeRate extends Component {
         <Select
           id="selectSymbolToCompare"
           options={this.state.symbols}
+          defaultValue={this.state.targetSymbol}
           className="block select"
           onChange={this.selectSymbolToCompare_OnChange}
         />
-        <div className="column big-card block">
+        <div className="column big-card block is-narrow-mobile">
+          <p className="is-size-4-mobile has-text-weight-bold has-text-centered">
+            {this.state.symbolComparisson}
+          </p>
+
           <div id="mainChart" className="mainChart"></div>
         </div>
         <div className="has-text-centered block">
@@ -75,16 +79,48 @@ class EchangeRate extends Component {
             Recent exchange rates
           </label>
         </div>
-        <Currency id={"USD"} symbol={"USD"} currency={"United States Dollar"} />
-        <Currency id={"MXN"} symbol={"MXN"} currency={"Mexican Peso"} />
+        <div className="columns">
+          {this.state.symbols.map((currency, i) => {
+            return (
+              <div key={"col_" + i} className="column">
+                <Currency
+                  id={"currency_" + currency.value}
+                  key={i}
+                  symbol={currency.value}
+                  currency={currency.label}
+                  targetSymbol={this.state.sourceSymbol.value}
+                  className="small-card"
+                />
+              </div>
+            );
+          })}
+        </div>
       </div>
     );
   }
 
   componentDidMount() {
-    this.getRateHistoryByDay();
-    this.generateChart();
+    this.bindChart();
   }
+
+  bindChart = async () => {
+    await HistoryRate.getRateHistoryByDay(this.state.daysRange);
+    this.setState(
+      {
+        symbolComparisson:
+          1 +
+          " " +
+          this.state.sourceSymbol.value +
+          " = " +
+          this.getTodayRate() +
+          " " +
+          this.state.targetSymbol.value,
+      },
+      () => {
+        this.generateChart();
+      }
+    );
+  };
 
   generateChart() {
     c3.generate({
@@ -97,12 +133,16 @@ class EchangeRate extends Component {
         },
         type: "spline",
       },
+      legend: {
+        hide: true,
+      },
       axis: {
         x: {
           type: "timeseries",
           tick: {
             format: function (x) {
-              return moment(x).format("YYYY-MM-DD");
+              return moment(x).format("DD MMM");
+              // return moment(x).format("YYYY-MM-DD");
             },
           },
         },
@@ -114,18 +154,28 @@ class EchangeRate extends Component {
   }
 
   selectSourceSymbol_OnChange = (newValue, actionMeta) => {
-    this.setState({
-      sourceSymbol: newValue,
-    });
+    this.setState(
+      {
+        sourceSymbol: newValue,
+      },
+      () => {
+        this.bindChart();
+      }
+    );
   };
 
   selectSymbolToCompare_OnChange = (newValue, actionMeta) => {
-    this.setState({
-      targetSymbol: newValue,
-    });
+    this.setState(
+      {
+        targetSymbol: newValue,
+      },
+      () => {
+        this.bindChart();
+      }
+    );
   };
 
-  getSymbols() {
+  getSymbols = () => {
     var symbols = {
       USD: "United States Dollar",
       AUD: "Australian Dollar",
@@ -140,27 +190,13 @@ class EchangeRate extends Component {
     });
 
     return options;
-  }
-
-  /**
-   * Get data from API
-   * @param {*} day
-   * @returns
-   */
-  getHistoricalrates(day) {
-    return axios.get(baseUrl + day, {
-      params: {
-        access_key: fixerKey,
-        symbols: "USD,AUD,CAD,PLN,MXN",
-      },
-    });
-  }
+  };
 
   /**
    * Get Days Range from last 6 days
    * @returns
    */
-  getDaysRange() {
+  getDaysRange = () => {
     let days = [];
     let range = moment.rangeFromInterval("day", -6);
 
@@ -169,40 +205,10 @@ class EchangeRate extends Component {
     }
 
     return days;
-  }
-
-  /**
-   * Get Rate History from the last 7 days
-   */
-  async getRateHistoryByDay() {
-    let days = this.state.daysRange;
-    let rateHistory = [];
-
-    let historical = this.getHistoryFromLocalStorage();
-
-    if ((historical === null) | undefined) {
-      await Promise.all(
-        days.map(async (day) => {
-          await this.getHistoricalrates(moment(day).format("YYYY-MM-DD"))
-            .then((response) => {
-              if (response.data.success) {
-                rateHistory.push(response.data);
-              }
-            })
-            .catch((error) => console.log(error));
-        })
-      );
-
-      this.saveHistoryOnLocalStorage(JSON.stringify(rateHistory));
-    }
-  }
+  };
 
   saveHistoryOnLocalStorage(history) {
     localStorage.setItem("historyRate", history);
-  }
-
-  getHistoryFromLocalStorage() {
-    return JSON.parse(localStorage.getItem("historyRate"));
   }
 
   validateTodayInLocalStorageHistoryRate(today) {
@@ -211,11 +217,18 @@ class EchangeRate extends Component {
 
   getOrderedHistoryRate() {
     return HistoryRate.transformHistoryRate(
-      this.getHistoryFromLocalStorage(),
       this.state.sourceSymbol.value,
       this.state.targetSymbol.value
     );
   }
+
+  getTodayRate = () => {
+    let todayRate = this.getOrderedHistoryRate().find(
+      (rate) => rate.date === moment(new Date()).format("YYYY-MM-DD")
+    ).rate;
+
+    return todayRate;
+  };
 }
 
 export default EchangeRate;

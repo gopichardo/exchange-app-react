@@ -1,11 +1,12 @@
 import React, { Component } from "react";
 import "../assets/css/Currency.css";
 import c3 from "c3";
+import HistoryRate from "../logic/HistoryRate";
 
 class Currency extends Component {
   render() {
     return (
-      <div id={"currency_" + this.props.id} className="small-card column block">
+      <div id={"currency_" + this.props.id} className={this.props.className}>
         <p className="is-size-5-mobile has-text-weight-bold">
           {this.props.symbol}
         </p>
@@ -16,12 +17,20 @@ class Currency extends Component {
   }
 
   componentDidMount() {
-    this.setState({
-      currency: this.props.id,
-    });
-
-    this.generateChart();
+    this.bindChart();
   }
+
+  bindChart = async () => {
+    // await HistoryRate.getRateHistoryByDay();
+    this.setState(
+      {
+        currency: this.props.id,
+      },
+      () => {
+        this.generateChart();
+      }
+    );
+  };
 
   generateChart() {
     c3.generate({

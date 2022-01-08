@@ -1,3 +1,8 @@
+import moment from "moment";
+import axios from "axios";
+const baseUrl = "http://data.fixer.io/api/";
+const fixerKey = "40b5de4e591999345ab08947cac7113f";
+
 const HistoryRate = {
   /**
    * Return Ordered Data
@@ -6,12 +11,8 @@ const HistoryRate = {
    * @param {*} compareRate Rate yto compare
    * @returns Ordered Data
    */
-  transformHistoryRate: (
-    historyRate,
-    rateBase = "MXN",
-    compareRate = "USD"
-  ) => {
-    let data = historyRate.map((value) => {
+  transformHistoryRate: (rateBase = "MXN", compareRate = "USD") => {
+    let data = HistoryRate.getHistoryFromLocalStorage().map((value) => {
       let rateBaseValue = value.rates[rateBase];
       let history = {
         date: value.date,
@@ -32,6 +33,56 @@ const HistoryRate = {
     });
 
     return data;
+  },
+  getHistoryFromLocalStorage: () => {
+    return JSON.parse(localStorage.getItem("historyRate"));
+  },
+
+  getRateHistoryByDay: async (days) => {
+    let rateHistory = [];
+
+    let historical = HistoryRate.getHistoryFromLocalStorage();
+
+    if ((historical === null) | undefined) {
+      await Promise.all(
+        days.map(async (day) => {
+          await HistoryRate.getHistoricalrates(moment(day).format("YYYY-MM-DD"))
+            .then((response) => {
+              if (response.data.success) {
+                rateHistory.push(response.data);
+              }
+            })
+            .catch((error) => console.log(error));
+        })
+      );
+
+      this.saveHistoryOnLocalStorage(JSON.stringify(rateHistory));
+    }
+  },
+
+  /**
+   * Get data from API
+   * @param {*} day
+   * @returns
+   */
+  getHistoricalrates: (day) => {
+    return axios.get(baseUrl + day, {
+      params: {
+        access_key: fixerKey,
+        symbols: "USD,AUD,CAD,PLN,MXN,EUR",
+      },
+    });
+  },
+
+  getDaysRange: () => {
+    let days = [];
+    let range = moment.rangeFromInterval("day", -6);
+
+    for (let day of range.by("day")) {
+      days.push(day);
+    }
+
+    return days;
   },
 };
 
