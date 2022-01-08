@@ -27,7 +27,7 @@ Adicional a esto, se recomienda la instalación de **Visual Studio Code** para l
 
 ## Descarga de repositorio
 
-El código fuente de la API se encuentra versionado con git y está alojado en el repositorio GIT https://github.com/gopichardo/front-exchange.git
+El código fuente de la API se encuentra versionado con git y está alojado en el repositorio GIT https://github.com/gopichardo/front-exchange.git, en la rama master.
 
 para descargar la solución del proyecto basta con clonar el repositorio con el siguiente comando:
 
