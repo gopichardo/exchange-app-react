@@ -40,12 +40,11 @@ const HistoryRate = {
 
   getRateHistoryByDay: async (days) => {
     let rateHistory = [];
-
     let historical = HistoryRate.getHistoryFromLocalStorage();
 
     let lastDateDataEqualsToToday = await HistoryRate.checkIfLastDayEqualsToToday();
 
-    if (!lastDateDataEqualsToToday || (historical === null | undefined)) {
+    if (!lastDateDataEqualsToToday || historical === null | undefined) {
       await Promise.all(
         days.map(async (day) => {
           await HistoryRate.getHistoricalrates(moment(day).format("YYYY-MM-DD"))
@@ -57,8 +56,10 @@ const HistoryRate = {
             .catch((error) => console.log(error));
         })
       );
-
       HistoryRate.saveHistoryOnLocalStorage(JSON.stringify(rateHistory));
+    }
+    else {
+      rateHistory = historical;
     }
 
     return rateHistory;
@@ -94,7 +95,13 @@ const HistoryRate = {
 
   checkIfLastDayEqualsToToday: async () => {
     let currentData = HistoryRate.getHistoryFromLocalStorage();
-    let lastDayEqualsToToday = moment(currentData.reverse()[0]).isSame(moment().format("YYYY-MM-DD"));
+
+    let lastDay = currentData.reverse()[0].date;
+    let today = moment().format("YYYY-MM-DD");
+
+    let lastDayEqualsToToday = moment(lastDay).isSame(today);
+
+    //let lastDayEqualsToToday = moment(currentData.reverse()[0]).isSame(moment().format("YYYY-MM-DD"));
 
     return lastDayEqualsToToday;
   }
