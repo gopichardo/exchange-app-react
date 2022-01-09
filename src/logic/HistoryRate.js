@@ -94,15 +94,22 @@ const HistoryRate = {
   },
 
   checkIfLastDayEqualsToToday: async () => {
-    let currentData = HistoryRate.getHistoryFromLocalStorage();
+    let lastDayEqualsToToday = false;
+    try {
+      let currentData = HistoryRate.getHistoryFromLocalStorage();
+      if(currentData !== null | undefined)
+      {
+        return false;
+      }
+      
+      let lastDay = currentData.reverse()[0].date;
+      let today = moment().format("YYYY-MM-DD");
 
-    let lastDay = currentData.reverse()[0].date;
-    let today = moment().format("YYYY-MM-DD");
+      lastDayEqualsToToday = moment(lastDay).isSame(today);
 
-    let lastDayEqualsToToday = moment(lastDay).isSame(today);
+    } catch (error) {
 
-    //let lastDayEqualsToToday = moment(currentData.reverse()[0]).isSame(moment().format("YYYY-MM-DD"));
-
+    }
     return lastDayEqualsToToday;
   }
 };
