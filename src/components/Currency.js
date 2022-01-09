@@ -12,9 +12,9 @@ class Currency extends Component {
         className={this.props.isActive ? "small-card currency-selected" : "small-card"}
         onClick={this.selectCurrency}>
         <p className="is-size-5-mobile has-text-weight-bold">
-          {this.props.symbol}
+          {this.props.symbol.value}
         </p>
-        <p className="is-size-5-mobile">{this.props.currency}</p>
+        <p className="is-size-5-mobile">{this.props.symbol.label}</p>
         <div id={this.props.id} className="currencyChart"></div>
       </div>
     );
@@ -67,7 +67,7 @@ class Currency extends Component {
   }
 
   selectCurrency = () => {
-    this.props.onClick(this.props.currency, this.props.index);
+    this.props.onClick(this.props.symbol, this.props.index);
   }
 }
 

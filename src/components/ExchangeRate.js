@@ -88,11 +88,10 @@ class EchangeRate extends Component {
                   index={i}
                   id={"currency_" + currency.value}
                   key={i}
-                  symbol={currency.value}
-                  currency={currency.label}
+                  symbol={currency}
                   targetSymbol={this.state.sourceSymbol.value}
                   isActive={this.state.selectedIndex === i}
-                  onClick={this.selectCurency}
+                  onClick={this.selectCardCurency}
                 />
               </div>
             );
@@ -232,9 +231,12 @@ class EchangeRate extends Component {
     return todayRate;
   };
 
-  selectCurency = (currency, index) => {
+  selectCardCurency = (symbol, index) => {
     this.setState({
-      selectedIndex: index
+      selectedIndex: index,
+      targetSymbol: symbol
+    }, () => {
+      this.bindChart();
     });
   }
 }
