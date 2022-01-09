@@ -105,6 +105,7 @@ class EchangeRate extends Component {
 
   bindChart = async () => {
     await HistoryRate.getRateHistoryByDay(this.state.daysRange);
+    let todayRate = this.getTodayRate();
     this.setState(
       {
         symbolComparisson:
@@ -112,7 +113,7 @@ class EchangeRate extends Component {
           " " +
           this.state.sourceSymbol.value +
           " = " +
-          this.getTodayRate() +
+          todayRate +
           " " +
           this.state.targetSymbol.value,
       },
@@ -207,7 +208,7 @@ class EchangeRate extends Component {
     return days;
   };
 
- 
+
 
   validateTodayInLocalStorageHistoryRate(today) {
     return false;
