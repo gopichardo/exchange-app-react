@@ -20,6 +20,7 @@ class EchangeRate extends Component {
     ];
 
     this.state = {
+      selectedIndex: 0,
       dataReady: false,
       symbolComparisson: "",
       symbols: this.getSymbols(),
@@ -82,14 +83,16 @@ class EchangeRate extends Component {
         <div className="columns">
           {this.state.symbols.map((currency, i) => {
             return (
-              <div key={"col_" + i} className="column">
+              <div key={"col_" + i} className="column card-column">
                 <Currency
+                  index={i}
                   id={"currency_" + currency.value}
                   key={i}
                   symbol={currency.value}
                   currency={currency.label}
                   targetSymbol={this.state.sourceSymbol.value}
-                  className="small-card"
+                  isActive={this.state.selectedIndex === i}
+                  onClick={this.selectCurency}
                 />
               </div>
             );
@@ -99,7 +102,7 @@ class EchangeRate extends Component {
     );
   }
 
-  componentDidMount() {
+  componentDidMount = () => {
     this.bindChart();
   }
 
@@ -123,7 +126,7 @@ class EchangeRate extends Component {
     );
   };
 
-  generateChart() {
+  generateChart = () => {
     c3.generate({
       bindto: "#mainChart",
       data: {
@@ -210,7 +213,7 @@ class EchangeRate extends Component {
 
 
 
-  validateTodayInLocalStorageHistoryRate(today) {
+  validateTodayInLocalStorageHistoryRate = (today) => {
     return false;
   }
 
@@ -228,6 +231,12 @@ class EchangeRate extends Component {
 
     return todayRate;
   };
+
+  selectCurency = (currency, index) => {
+    this.setState({
+      selectedIndex: index
+    });
+  }
 }
 
 export default EchangeRate;

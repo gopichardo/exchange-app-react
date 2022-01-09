@@ -4,9 +4,13 @@ import c3 from "c3";
 import HistoryRate from "../logic/HistoryRate";
 
 class Currency extends Component {
+
   render() {
     return (
-      <div id={"currency_" + this.props.id} className={this.props.className}>
+      <div
+        id={"currency_" + this.props.id}
+        className={this.props.isActive ? "small-card currency-selected" : "small-card"}
+        onClick={this.selectCurrency}>
         <p className="is-size-5-mobile has-text-weight-bold">
           {this.props.symbol}
         </p>
@@ -32,7 +36,7 @@ class Currency extends Component {
     );
   };
 
-  generateChart() {
+  generateChart = () => {
     c3.generate({
       bindto: "#" + this.props.id,
       data: {
@@ -60,6 +64,10 @@ class Currency extends Component {
         },
       },
     });
+  }
+
+  selectCurrency = () => {
+    this.props.onClick(this.props.currency, this.props.index);
   }
 }
 

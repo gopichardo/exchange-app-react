@@ -23,3 +23,7 @@
 .currency-selected {
   border: 2px solid #ffffff;
 }
+
+.card-column :hover {
+  cursor: pointer;
+}
