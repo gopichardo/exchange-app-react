@@ -68,12 +68,12 @@ la aplicación esta diseñada para adaptarse a dispositivos moviles y pantallas 
 
 Debido a que la aplicación utiliza el plan gratuito de la API https://fixer.io/ solo se pueden realizar 100 peticiones al mes en el pan gratuito, por lo que puede no obtener la información de manera correcta hasta que se renueve el plan. Ademas de que solo están disponobles las siguientes conversiones:
 
-- USD: "United States Dollar",
-- AUD: "Australian Dollar",
-- CAD: "Canadian Dollar",
-- PLN: "Polish Zloty",
-- MXN: "Mexican Peso",
-- EUR: "Euro",
+- USD - United States Dollar
+- AUD - Australian Dollar
+- CAD - Canadian Dollar
+- PLN - Polish Zloty
+- MXN - Mexican Peso
+- EUR - Euro
 
 Desarrollado por **César González**  
 Correo: gopichardoces@gmail.com  
