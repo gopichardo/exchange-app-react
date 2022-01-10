@@ -21,6 +21,7 @@ class EchangeRate extends Component {
 
     this.state = {
       selectedIndex: 0,
+      selectedValue: { value: "USD", label: "United States Dollar" },
       dataReady: false,
       symbolComparisson: "",
       symbols: this.getSymbols(),
@@ -64,9 +65,10 @@ class EchangeRate extends Component {
         <Select
           id="selectSymbolToCompare"
           options={this.state.symbols}
-          defaultValue={this.state.targetSymbol}
+          // defaultValue={this.state.targetSymbol}
           className="block select"
           onChange={this.selectSymbolToCompare_OnChange}
+          value={this.state.selectedValue}
         />
         <div className="column big-card block is-narrow-mobile">
           <p className="is-size-4-mobile has-text-weight-bold has-text-centered">
@@ -234,8 +236,10 @@ class EchangeRate extends Component {
   selectCardCurency = (symbol, index) => {
     this.setState({
       selectedIndex: index,
-      targetSymbol: symbol
+      targetSymbol: symbol,
+      selectedValue: symbol
     }, () => {
+      console.log("Selected: ", this.state.selectedValue);
       this.bindChart();
     });
   }

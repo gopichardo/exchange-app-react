@@ -1,7 +1,7 @@
 import moment from "moment";
 import axios from "axios";
 const baseUrl = "http://data.fixer.io/api/";
-const fixerKey = "40b5de4e591999345ab08947cac7113f";
+const fixerKey = process.env.REACT_APP_FIXERKEY;
 
 const HistoryRate = {
   /**
@@ -97,11 +97,10 @@ const HistoryRate = {
     let lastDayEqualsToToday = false;
     try {
       let currentData = HistoryRate.getHistoryFromLocalStorage();
-      if(currentData !== null | undefined)
-      {
+      if (currentData !== null | undefined) {
         return false;
       }
-      
+
       let lastDay = currentData.reverse()[0].date;
       let today = moment().format("YYYY-MM-DD");
 
