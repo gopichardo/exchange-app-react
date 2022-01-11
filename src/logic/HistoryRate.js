@@ -1,7 +1,11 @@
 import moment from "moment";
 import axios from "axios";
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
+
 const baseUrl = "http://data.fixer.io/api/";
 const fixerKey = process.env.REACT_APP_FIXERKEY;
+
 
 const HistoryRate = {
   /**
@@ -41,6 +45,7 @@ const HistoryRate = {
   getRateHistoryByDay: async (days) => {
     let rateHistory = [];
     let historical = HistoryRate.getHistoryFromLocalStorage();
+    let error = null;
 
     let lastDateDataEqualsToToday = await HistoryRate.checkIfLastDayEqualsToToday();
 
@@ -52,10 +57,17 @@ const HistoryRate = {
               if (response.data.success) {
                 rateHistory.push(response.data);
               }
+              else {
+                error = response.data.error;
+              }
             })
             .catch((error) => console.log(error));
-        })
-      );
+        }));
+
+      if (error !== null | undefined) {
+        HistoryRate.showErrorAlert("Fiexer.io Error", error.info);
+
+      }
       HistoryRate.saveHistoryOnLocalStorage(JSON.stringify(rateHistory));
     }
     else {
@@ -110,6 +122,16 @@ const HistoryRate = {
 
     }
     return lastDayEqualsToToday;
+  },
+  showErrorAlert: (title, text) => {
+    const MySwal = withReactContent(Swal)
+
+    MySwal.fire({
+      title: title,
+      text: text,
+      icon: "error"
+    });
+
   }
 };
 

@@ -38,67 +38,75 @@ class EchangeRate extends Component {
           Summary of <b>{this.state.sourceSymbol.label}</b> exchange rates
           against other currencies.
         </h1>
-        <div className="has-text-centered block">
-          <label
-            htmlFor="sourceCurrency"
-            className="is-size-5-mobile label-bold"
-          >
-            Compare
-          </label>
-        </div>
-        <Select
-          id="selectSourceSymbol"
-          options={this.state.symbols}
-          defaultValue={this.state.sourceSymbol}
-          isDisabled={false}
-          className="block select"
-          onChange={this.selectSourceSymbol_OnChange}
-        />
-        <div className="has-text-centered block">
-          <label
-            htmlFor="destinationCurrency"
-            className="is-size-5-mobile label-bold"
-          >
-            to
-          </label>
-        </div>
-        <Select
-          id="selectSymbolToCompare"
-          options={this.state.symbols}
-          // defaultValue={this.state.targetSymbol}
-          className="block select"
-          onChange={this.selectSymbolToCompare_OnChange}
-          value={this.state.selectedValue}
-        />
-        <div className="column big-card block is-narrow-mobile">
-          <p className="is-size-4-mobile has-text-weight-bold has-text-centered">
-            {this.state.symbolComparisson}
-          </p>
+        <div className="columns is-desktop">
+          <div className="column">
+            <div className="has-text-centered block">
+              <label
+                htmlFor="sourceCurrency"
+                className="is-size-5-mobile label-bold"
+              >
+                Compare
+              </label>
+            </div>
+            <Select
+              id="selectSourceSymbol"
+              options={this.state.symbols}
+              defaultValue={this.state.sourceSymbol}
+              isDisabled={false}
+              className="block select"
+              onChange={this.selectSourceSymbol_OnChange}
+            />
+            <div className="has-text-centered block">
+              <label
+                htmlFor="destinationCurrency"
+                className="is-size-5-mobile label-bold"
+              >
+                to
+              </label>
+            </div>
+            <Select
+              id="selectSymbolToCompare"
+              options={this.state.symbols}
+              // defaultValue={this.state.targetSymbol}
+              className="block select"
+              onChange={this.selectSymbolToCompare_OnChange}
+              value={this.state.selectedValue}
+            />
+            <div className="column big-card block is-narrow-mobile">
+              <p className="is-size-4-mobile has-text-weight-bold has-text-centered">
+                {this.state.symbolComparisson}
+              </p>
 
-          <div id="mainChart" className="mainChart"></div>
+              <div id="mainChart" className="mainChart"></div>
+            </div>
+          </div>
+          <div className="column">
+            <div className="has-text-centered block">
+              <label className="is-size-5-mobile label-bold">
+                Recent exchange rates
+              </label>
+            </div>
+            <div className="columns is-multiline">
+              {this.state.symbols.map((currency, i) => {
+                return (
+                  <div key={"col_" + i} className="column card-column is-5">
+                    <Currency
+                      index={i}
+                      id={"currency_" + currency.value}
+                      key={i}
+                      symbol={currency}
+                      targetSymbol={this.state.sourceSymbol.value}
+                      isActive={this.state.selectedIndex === i}
+                      onClick={this.selectCardCurency}
+                    />
+                  </div>
+                );
+              })}
+            </div>
+          </div>
         </div>
-        <div className="has-text-centered block">
-          <label className="is-size-5-mobile label-bold">
-            Recent exchange rates
-          </label>
-        </div>
-        <div className="columns">
-          {this.state.symbols.map((currency, i) => {
-            return (
-              <div key={"col_" + i} className="column card-column">
-                <Currency
-                  index={i}
-                  id={"currency_" + currency.value}
-                  key={i}
-                  symbol={currency}
-                  targetSymbol={this.state.sourceSymbol.value}
-                  isActive={this.state.selectedIndex === i}
-                  onClick={this.selectCardCurency}
-                />
-              </div>
-            );
-          })}
-        </div>
+
+
       </div>
     );
   }
